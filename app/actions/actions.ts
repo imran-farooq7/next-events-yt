@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/prisma/prisma";
 import { Event } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export const addToMyEvents = async (event: Event) => {
@@ -23,6 +24,7 @@ export const addToMyEvents = async (event: Event) => {
 		},
 	});
 	if (addedEvent) {
+		revalidatePath("/events/myevents");
 		return {
 			status: "success",
 			message: "Added event successfully",
